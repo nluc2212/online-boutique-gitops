@@ -1,0 +1,56 @@
+grafana:
+  adminPassword: "admin"
+  service:
+    type: ClusterIP
+
+prometheus:
+  prometheusSpec:
+    serviceMonitorSelectorNilUsesHelmValues: false
+    podMonitorSelectorNilUsesHelmValues: false
+    ruleSelectorNilUsesHelmValues: false
+
+kubeEtcd:
+  enabled: false
+kubeControllerManager:
+  enabled: false
+kubeScheduler:
+  enabled: false
+
+# TẮT CÁC ALERT RULES MẶC ĐỊNH GÂY SPAM TỪ GỐC
+defaultRules:
+  create: false
+
+# CẤU HÌNH ALERTMANAGER GỬI MAIL
+alertmanager:
+  config:
+    global:
+      resolve_timeout: 5m
+      smtp_smarthost: 'smtp.gmail.com:587'
+      smtp_from: 'nluc2212@gmail.com'
+      smtp_auth_username: 'nluc2212@gmail.com'
+      smtp_auth_password: 'ezzwqgaddyjhkksd'
+      smtp_require_tls: true
+
+    route:
+      group_by: ['alertname', 'namespace']
+      group_wait: 30s
+      group_interval: 5m
+      repeat_interval: 12h
+      receiver: 'null' # Mặc định hủy bỏ các cảnh báo không mong muốn
+
+      routes:
+      - receiver: 'admin-email'
+        matchers:
+          - severity =~ "critical|warning"
+        continue: false
+
+    receivers:
+    - name: 'null'
+
+    - name: 'admin-email'
+      email_configs:
+      - to: 'nluc2212@gmail.com'
+        send_resolved: true
+        headers:
+          subject: '[EKS Alert - {{ .Status | toUpper }}] {{ .GroupLabels.alertname }} ({{ .CommonLabels.severity }})'
+
