@@ -502,7 +502,7 @@ spec:
                 - ALL
             privileged: false
             readOnlyRootFilesystem: true
-          image: us-central1-docker.pkg.dev/online-boutique-ci/microservices-demo/frontend:v0.10.7
+          image: 868962733050.dkr.ecr.ap-southeast-1.amazonaws.com/online-boutique/frontend:initial
           ports:
           - containerPort: 8080
           readinessProbe:
