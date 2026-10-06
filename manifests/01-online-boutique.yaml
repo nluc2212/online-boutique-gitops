@@ -502,7 +502,7 @@ spec:
                 - ALL
             privileged: false
             readOnlyRootFilesystem: true
-          image: 868962733050.dkr.ecr.ap-southeast-1.amazonaws.com/online-boutique/frontend:initial
+          image: 868962733050.dkr.ecr.ap-southeast-1.amazonaws.com/online-boutique/frontend:fa50af2ea61cf944285f2221cc3f6f2024aaf314
           ports:
           - containerPort: 8080
           readinessProbe:
